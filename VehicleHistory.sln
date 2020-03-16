@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleHistory.WebApi", "VehicleHistory.WebApi\VehicleHistory.WebApi.csproj", "{7525C27D-4C6E-4DE1-B18E-880C026B0749}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleHistory.Logic", "VehicleHistory.Logic\VehicleHistory.Logic.csproj", "{A528C485-1D82-461F-A3CD-560B763AB5E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7525C27D-4C6E-4DE1-B18E-880C026B0749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7525C27D-4C6E-4DE1-B18E-880C026B0749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7525C27D-4C6E-4DE1-B18E-880C026B0749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7525C27D-4C6E-4DE1-B18E-880C026B0749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A528C485-1D82-461F-A3CD-560B763AB5E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A528C485-1D82-461F-A3CD-560B763AB5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A528C485-1D82-461F-A3CD-560B763AB5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A528C485-1D82-461F-A3CD-560B763AB5E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A162288-83C3-4365-9543-E41471892B92}
+	EndGlobalSection
+EndGlobal
