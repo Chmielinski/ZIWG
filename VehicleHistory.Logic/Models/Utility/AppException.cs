@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Globalization;
 
-namespace VehicleHistory.WebApi.Helpers
+namespace VehicleHistory.Logic.Models.Utility
 {
     public class AppException : Exception
     {
-        public AppException() : base()
+        public AppException()
         {
             
         }

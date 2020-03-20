@@ -6,5 +6,6 @@
         ManufacturerAuthorizedService = 2,
         TyreShop = 3,
         BodyShop = 4,
+        InspectionStation = 5
     }
 }

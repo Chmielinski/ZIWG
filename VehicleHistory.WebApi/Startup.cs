@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using VehicleHistory.Logic.Models.Mappings;
 using VehicleHistory.Logic.DB;
-using VehicleHistory.WebApi.Helpers;
+using VehicleHistory.Logic.Models.Utility;
 using VehicleHistory.Logic.Services;
 using VehicleHistory.Logic.Services.Implementations;
 using VehicleHistory.Logic.Services.Interfaces;
@@ -31,8 +31,13 @@ namespace VehicleHistory.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
             services.AddCors();
-            services.AddDbContext<VehicleHistoryContext>(x => x.UseSqlServer("Server=E7450;Database=VehicleHistory;Trusted_Connection=True;"));
+            services.AddDbContext<VehicleHistoryContext>(x => x.UseSqlServer(appSettings.ConnectionString));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -41,11 +46,6 @@ namespace VehicleHistory.WebApi
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
-            // configure jwt authentication
-            var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
                 {

@@ -11,15 +11,14 @@ namespace VehicleHistory.Logic.Models.Database
         [Required]
         public RecordTypes RecordType { get; set; }
         [Required]
-        public int Mileage { get; set; }
+        public int? Mileage { get; set; }
         [Required, MaxLength(17), StringLength(17)]
-        public bool Vin { get; set; }
+        public string Vin { get; set; }
         public string Description { get; set; }
         [MaxLength(150), StringLength(150)]
         public string Title { get; set; }
         [Required]
+        public Guid UserId { get; set; }
         public User User { get; set; }
-        [Required]
-        public Location Location { get; set; }
     }
 }
