@@ -34,10 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\VehicleHistory\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-      <HintPath>..\..\VehicleHistory\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
+    <Reference Include="RestSharp, Version=106.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.10.1\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,17 +56,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\Form1.cs">
+    <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\LoginScreen.cs">
+    <Compile Include="Forms\PasswordResetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\LoginScreen.Designer.cs">
-      <DependentUpon>LoginScreen.cs</DependentUpon>
+    <Compile Include="Forms\PasswordResetForm.Designer.cs">
+      <DependentUpon>PasswordResetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SetNewPasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SetNewPasswordForm.Designer.cs">
+      <DependentUpon>SetNewPasswordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\VHFormBase.cs">
       <SubType>Form</SubType>
@@ -74,19 +80,28 @@
     <Compile Include="Forms\VHFormBase.Designer.cs">
       <DependentUpon>VHFormBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\DictionaryItem.cs" />
     <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\RecordTypes.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\VehicleRecord.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\BadResponse.cs" />
     <Compile Include="Utility\EnvironmentSettings.cs" />
     <Compile Include="Utility\IErrorLabelDriver.cs" />
     <Compile Include="Utility\InputValidators.cs" />
-    <EmbeddedResource Include="Forms\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LoginScreen.resx">
-      <DependentUpon>LoginScreen.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\PasswordResetForm.resx">
+      <DependentUpon>PasswordResetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SetNewPasswordForm.resx">
+      <DependentUpon>SetNewPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VHFormBase.resx">
+      <DependentUpon>VHFormBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -110,6 +125,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\add.png" />
+    <Content Include="Icons\cancel.png" />
+    <Content Include="Icons\check.png" />
+    <Content Include="Icons\delete.png" />
+    <Content Include="Icons\details.png" />
+    <Content Include="Icons\edit.png" />
+    <Content Include="Icons\find.png" />
+    <Content Include="Icons\logout.png" />
+    <Content Include="Icons\off.png" />
+    <Content Include="Icons\user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

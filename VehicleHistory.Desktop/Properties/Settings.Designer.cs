@@ -42,5 +42,18 @@ namespace VehicleHistoryDesktop.Properties {
                 return ((string)(this["WebApiUrlProd"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:6969")]
+        public string WebApiUrl {
+            get {
+                return ((string)(this["WebApiUrl"]));
+            }
+            set {
+                this["WebApiUrl"] = value;
+            }
+        }
     }
 }

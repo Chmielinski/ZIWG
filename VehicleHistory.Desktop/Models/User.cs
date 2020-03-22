@@ -8,5 +8,6 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string LocationId { get; set; }
+        public bool PasswordRecoveryActive { get; set; }
     }
 }
