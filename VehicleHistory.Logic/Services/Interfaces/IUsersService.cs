@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using VehicleHistory.Logic.Models.Database;
+using VehicleHistory.Logic.Models.Dtos;
+using VehicleHistory.Logic.Models.Utility;
 
 namespace VehicleHistory.Logic.Services.Interfaces
 {
@@ -11,5 +13,9 @@ namespace VehicleHistory.Logic.Services.Interfaces
         User GetUserById(string id);
         void UpdateUser(User user, string password);
         void DeleteUser(string id);
+        User GetUserByEmail(string email);
+        void SendPasswordRecoveryEmail(User user, AppSettings settings);
+        bool IsPasswordCorrect(string input, string email);
+        void CheckUserData(User user);
     }
 }

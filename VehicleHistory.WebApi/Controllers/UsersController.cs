@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VehicleHistory.Logic.Services.Interfaces;
 using AutoMapper;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using VehicleHistory.Logic.Models.Database;
@@ -20,25 +22,18 @@ namespace VehicleHistory.WebApi.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IUsersService _usersService;
-
-        private IMapper _mapper;
-
+        private readonly ITokenService _tokenService;
+        private readonly IUsersService _usersService;
+        private readonly IMapper _mapper;
         private readonly AppSettings _appSettings;
 
-        public UsersController(IUsersService usersService, IMapper mapper, IOptions<AppSettings> appSettings)
+        public UsersController(IDistributedCache cache, IUsersService usersService, IMapper mapper, IOptions<AppSettings> appSettings, ITokenService tokenService)
         {
             _usersService = usersService;
             _mapper = mapper;
             _appSettings = appSettings.Value;
+            _tokenService = tokenService;
         }
-
-        [AllowAnonymous]
-        [HttpGet("ping")]
-		public IActionResult Ping()
-		{
-			return Ok();
-		}
 		
 		[AllowAnonymous]
         [HttpPost("authenticate")]
@@ -59,7 +54,7 @@ namespace VehicleHistory.WebApi.Controllers
                 {
                     new Claim(ClaimTypes.Name, user.Id.ToString())
                 }),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddDays(_appSettings.TokenExpirationDays),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -71,7 +66,10 @@ namespace VehicleHistory.WebApi.Controllers
                 user.Email,
                 user.FirstName,
                 user.LastName,
-                Token = tokenString
+                Token = tokenString,
+                user.PasswordRecoveryActive,
+                user.LocationId,
+                user.Group
             });
         }
 
@@ -79,7 +77,7 @@ namespace VehicleHistory.WebApi.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserDto userDto)
         {
-            var user = _mapper.Map<UserDto, User>(userDto);
+            var user = _mapper.Map(userDto, new User());
 
             try
             {
@@ -112,16 +110,16 @@ namespace VehicleHistory.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateUser(string id, [FromBody]UserDto userDto)
         {
-            var user = _mapper.Map<UserDto, User>(userDto);
-
             try
             {
+                var user = _mapper.Map<UserDto, User>(userDto);
                 _usersService.UpdateUser(user, userDto.Password);
-                return Ok();
+                userDto.Password = null;
+                return Ok(userDto);
             }
             catch (AppException ex)
             {
-                return BadRequest(new {message = ex.Message});
+                return BadRequest(new { message = ex.Message, stackTrace = ex.StackTrace });
             }
         }
 
@@ -135,7 +133,75 @@ namespace VehicleHistory.WebApi.Controllers
             }
             catch (AppException ex)
             {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("reset-password")]
+        public IActionResult SendPasswordResetEmail([FromBody] string email)
+        {
+            var user = _usersService.GetUserByEmail(email);
+            if (user == null)
+            {
+                return Ok();
+            }
+
+            try
+            {
+                _usersService.SendPasswordRecoveryEmail(user, _appSettings);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("ping")]
+        public IActionResult Ping()
+        {
+            // Used for verifying the token mechanism
+            return Ok();
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _tokenService.DeactivateCurrentAsync();
+            return Ok();
+        }
+
+        [HttpPost("validate-password")]
+        public IActionResult ValidatePassword([FromBody] UserDto user)
+        {
+            try
+            {
+                if (_usersService.IsPasswordCorrect(!string.IsNullOrEmpty(user.OldPassword) ? user.OldPassword : user.Password, user.Email))
+                {
+                    return Ok(user);
+                }
+                return BadRequest(new {message = "Nieprawidłowe hasło"});
+
+            }
+            catch (AppException ex)
+            {
                 return BadRequest(new {message = ex.Message});
+            }
+        }
+
+        [HttpPost("check")]
+        public IActionResult CheckIntegrity([FromBody] UserDto receivedUser)
+        {
+            try
+            {
+                var user = _mapper.Map<UserDto, User>(receivedUser);
+                _usersService.CheckUserData(user);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                return Unauthorized();
             }
         }
     }

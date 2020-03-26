@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using VehicleHistory.Logic.DB;
+using VehicleHistory.Logic.Helpers;
 using VehicleHistory.Logic.Models.Database;
 using VehicleHistory.Logic.Models.Dtos;
 using VehicleHistory.Logic.Models.Enums;
@@ -15,10 +19,12 @@ namespace VehicleHistory.Logic.Services.Implementations
     public class UsersService : IUsersService
     {
         private VehicleHistoryContext _context;
+        private IEmailSender _emailSender;
 
-        public UsersService(VehicleHistoryContext context)
+        public UsersService(VehicleHistoryContext context, IEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
         }
 		
 		public User Authenticate(string email, string password)
@@ -28,14 +34,14 @@ namespace VehicleHistory.Logic.Services.Implementations
                 return null;
             }
 
-            var user = _context.Users.SingleOrDefault(x => x.Email == email);
+            var user = _context.Users.SingleOrDefault(x => x.Email == email && !x.Archival);
 
             if (user == null)
             {
                 return null;
             }
 
-            if (!VerifyPasswordHash(user.PasswordHash, user.PasswordSalt, password))
+            if (!Crypto.VerifyPasswordHash(user.PasswordHash, user.PasswordSalt, password))
             {
                 return null;
             }
@@ -87,12 +93,12 @@ namespace VehicleHistory.Logic.Services.Implementations
                 throw new AppException("Invalid password");
             }
 
-            if (_context.Users.Any(x => x.Email == user.Email))
+            if (_context.Users.Any(x => x.Email == user.Email && !x.Archival))
             {
                 throw new AppException("Specified E-Mail address is already taken");
             }
 
-            CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
+            Crypto.CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
 
             user.PasswordSalt = passwordSalt;
             user.PasswordHash = passwordHash;
@@ -124,7 +130,7 @@ namespace VehicleHistory.Logic.Services.Implementations
 
         public IList<User> GetAll()
         {
-            return _context.Users.ToList();
+            return _context.Users.Where(x => !x.Archival).ToList();
         }
 
         public User GetUserById(string id)
@@ -143,7 +149,7 @@ namespace VehicleHistory.Logic.Services.Implementations
 
             if (user.Email != userParam.Email)
             {
-                if (_context.Users.Any(x => x.Email == userParam.Email))
+                if (_context.Users.Any(x => x.Email == userParam.Email && !x.Archival))
                 {
                     throw new AppException("Another user is already registered under this E-Mail address");
                 }
@@ -152,10 +158,12 @@ namespace VehicleHistory.Logic.Services.Implementations
             user.FirstName = userParam.FirstName;
             user.LastName = userParam.LastName;
             user.Email = userParam.Email;
+            user.UpdateDate = DateTime.Now;
+            user.PasswordRecoveryActive = false;
 
-            if (!string.IsNullOrEmpty(password) || string.IsNullOrWhiteSpace(password))
+            if (!string.IsNullOrEmpty(password) || !string.IsNullOrWhiteSpace(password))
             {
-                CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
+                Crypto.CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
                 user.PasswordSalt = passwordSalt;
                 user.PasswordHash = passwordHash;
             }
@@ -174,6 +182,61 @@ namespace VehicleHistory.Logic.Services.Implementations
             }
             _context.Remove(user);
             _context.SaveChanges();
+        }
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(x => x.Email == email && !x.Archival);
+        }
+
+        public async void SendPasswordRecoveryEmail(User userParam, AppSettings settings)
+        {
+            var builder = new DbContextOptionsBuilder<VehicleHistoryContext>();
+            builder.UseSqlServer(settings.ConnectionString);
+            using (var context = new VehicleHistoryContext(builder.Options))
+            {
+                var generatedPassword = Crypto.GenerateRendomPassword();
+                Crypto.CreatePasswordHash(generatedPassword, out var generatedPassHash, out var generatedPassSalt);
+                var user = context.Users.FirstOrDefault(x => x.Id.ToString() == userParam.Id.ToString());
+                if (user == null)
+                {
+                    throw new AppException("An error occured when trying to get the user object from the database.");
+                }
+                user.PasswordHash = generatedPassHash;
+                user.PasswordSalt = generatedPassSalt;
+                user.PasswordRecoveryActive = true;
+
+                var emailSubject = "Your Password has been reset";
+                var emailBody = $"Use the following password the next time you log in: <b>{generatedPassword}</b>. " +
+                                $"You will be prompted to change the password when you log in.";
+
+                await _emailSender.SendEmailAsync(user.Email, emailSubject, emailBody);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public bool IsPasswordCorrect(string input, string email)
+        {
+            var user = GetUserByEmail(email);
+            if (user == null)
+            {
+                throw new AppException("User not found");
+            }
+
+            return Crypto.VerifyPasswordHash(user.PasswordHash, user.PasswordSalt, input);
+        }
+
+        public void CheckUserData(User user)
+        {
+            var userDb = GetUserById(user.Id.ToString());
+            if (userDb == null)
+            {
+                throw new AppException("No user found");
+            }
+
+            if (user.Email != userDb.Email || user.Group != userDb.Group || user.LocationId != userDb.LocationId)
+            {
+                throw new AppException("Incoming data is not integral with database");
+            }
         }
     }
 }

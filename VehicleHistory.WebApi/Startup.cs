@@ -4,16 +4,17 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using VehicleHistory.Logic.Models.Mappings;
 using VehicleHistory.Logic.DB;
+using VehicleHistory.Logic.Middlewares;
 using VehicleHistory.Logic.Models.Utility;
-using VehicleHistory.Logic.Services;
 using VehicleHistory.Logic.Services.Implementations;
 using VehicleHistory.Logic.Services.Interfaces;
 
@@ -31,10 +32,20 @@ namespace VehicleHistory.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+        	services.AddCors();
+            services.AddSession();
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "127.0.0.1";
+            });
+            
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
-            // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
             services.AddCors();
             services.AddDbContext<VehicleHistoryContext>(x => x.UseSqlServer(appSettings.ConnectionString));
@@ -47,6 +58,7 @@ namespace VehicleHistory.WebApi
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            // configure jwt authentication
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -80,6 +92,10 @@ namespace VehicleHistory.WebApi
                 });
             
             services.AddScoped<IUsersService, UsersService>();
+            services.AddTransient<IEmailSender, EmailService>();
+            services.AddTransient<TokenManagerMiddleware>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<ITokenService, TokenService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +108,8 @@ namespace VehicleHistory.WebApi
 
             app.UseAuthentication();
 
+            app.UseMiddleware<TokenManagerMiddleware>();
+            app.UseSession();
             app.UseMvc();
         }
     }
