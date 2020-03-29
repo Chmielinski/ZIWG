@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
@@ -38,6 +39,7 @@ namespace VehicleHistoryDesktop.Forms
                     Hide();
                     tbLogin.Text = null;
                     tbPassword.Text = null;
+                    new DashboardForm(JsonConvert.DeserializeObject<List<VehicleRecord>>(response.Content), this, responseUser).Show();
                     if (responseUser.PasswordRecoveryActive)
                     {
                         using (var setNewPasswordForm = new SetNewPasswordForm(this))
