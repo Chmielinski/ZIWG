@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class AdminPanel extends React.Component {
-	render() {
-		const { user, users } = this.props;
-		
+	render() {		
 		return (
 			<div className="col-md-6 col-md-offset-3">
-				Hello
+				Panel Administratora
 			</div>
 		);
 	}

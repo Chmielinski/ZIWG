@@ -1,0 +1,42 @@
+.header {
+	height: 8rem;
+	background: linear-gradient(#0575E6, #021B79);
+	clip-path: polygon(0 0, 100% 0, 100% 50%, 0 100%);
+
+	&__menu {
+		display: flex;
+		align-items: flex-start;
+	}
+
+	&__menu-item {
+		user-select: none;
+		padding: 18px;
+		color: white;
+
+		&:hover {
+			color: #8b8b8b;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		&--current {
+			font-weight: 600;
+
+			&:hover {
+				cursor: default;
+				color: white
+			}
+		}
+
+		&--right {
+			position: absolute;
+			right: 0;
+		}
+	}
+
+	&__main {
+		font-weight: 600;
+		font-size: 125%;
+		padding: 12px;
+	}
+}

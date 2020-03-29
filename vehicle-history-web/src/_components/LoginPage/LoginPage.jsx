@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { userActions } from '../_actions';
+import { userActions } from '../../_actions';
 
 class LoginPage extends React.Component {
 	constructor(props) {
@@ -16,17 +16,14 @@ class LoginPage extends React.Component {
 			password: '',
 			submitted: false
 		};
-
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	handleChange(e) {
+	handleChange = (e) => {
 		const { name, value } = e.target;
 		this.setState({ [name]: value });
 	}
 
-	handleSubmit(e) {
+	handleSubmit = (e) => {
 		e.preventDefault();
 
 		this.setState({ submitted: true });
@@ -40,21 +37,21 @@ class LoginPage extends React.Component {
 		const { loggingIn } = this.props;
 		const { email, password, submitted } = this.state;
 		return (
-			<div className="col-md-6 col-md-offset-3">
+			<div className="col-md-6 offset-md-3 center-vertically">
 				<h2>Login</h2>
 				<form name="form" onSubmit={this.handleSubmit}>
 					<div className={'form-group' + (submitted && !email ? ' has-error' : '')}>
 						<label htmlFor="email">E-Mail</label>
 						<input type="text" className="form-control" name="email" value={email} onChange={this.handleChange} />
 						{submitted && !email &&
-              <div className="help-block">E-Mail is required</div>
+              <div className="help-block">E-Mail jest wymagany</div>
 						}
 					</div>
 					<div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
 						<label htmlFor="password">Password</label>
 						<input type="password" className="form-control" name="password" value={password} onChange={this.handleChange} />
 						{submitted && !password &&
-              <div className="help-block">Password is required</div>
+              <div className="help-block">Has³o jest wymagane</div>
 						}
 					</div>
 					<div className="form-group">

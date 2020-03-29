@@ -8,7 +8,10 @@ export const userActions = {
 	logout,
 	register,
 	getAll,
-	delete: _delete
+	delete: _delete,
+	update,
+	verifyUserIntegrity,
+	verifyPassword
 };
 
 function login(username, password) {
@@ -19,7 +22,7 @@ function login(username, password) {
 			.then(
 				user => { 
 					dispatch(success(user));
-					history.push('/admin-panel');
+					history.push('/');
 				},
 				error => {
 					dispatch(failure(error.toString()));
@@ -92,4 +95,68 @@ function _delete(id) {
 	function request(id) { return { type: userConstants.DELETE_REQUEST, id }; }
 	function success(id) { return { type: userConstants.DELETE_SUCCESS, id }; }
 	function failure(id, error) { return { type: userConstants.DELETE_FAILURE, id, error }; }
+}
+
+function verifyUserIntegrity() {
+	return dispatch => {
+		dispatch(request());
+
+		userService.verifyUserIntegrity()
+			.then(
+				() => dispatch(success()),
+				error => {
+					dispatch(failure(error.toString()));
+					dispatch(userActions.logout());
+				}
+			);
+	};
+
+	function request() { return { type: userConstants.VERIFY_REQUEST }; }
+	function success() { return { type: userConstants.VERIFY_SUCCESS }; }
+	function failure(error) { return { type: userConstants.VERIFY_FAILURE, error }; }
+}
+
+function update(user) {
+	return dispatch => {
+		dispatch(request(user));
+
+		userService.update(user)
+			.then(
+				user => {
+					dispatch(success(user));
+					localStorage.setItem('user', JSON.stringify(user));
+					dispatch(alertActions.success('Zmiany zostały zapisane'));
+				},
+				error => {
+					dispatch(failure(location, error.toString()));
+					dispatch(alertActions.error(error.toString()));
+				}
+			);		
+	};
+
+	function request(user) { return { type: userConstants.UPDATE_REQUEST, user}; }
+	function success(user) { return { type: userConstants.UPDATE_SUCCESS, user }; }
+	function failure(user, error) { return { type: userConstants.UPDATE_FAILURE, user, error }; }
+}
+
+function verifyPassword(user) {
+	return dispatch => {
+		dispatch(request(user));
+		
+		userService.verifyPassword(user)
+			.then(
+				user => {
+					dispatch(success(user));
+					dispatch(userActions.update(user));
+				},
+				error => {
+					dispatch(failure(location, error.toString()));
+					dispatch(alertActions.error(error.toString()));
+				}
+			);		
+	};
+
+	function request(user) { return { type: userConstants.CHECK_PASSWORD_REQUEST, user}; }
+	function success(user) { return { type: userConstants.CHECK_PASSWORD_SUCCESS, user }; }
+	function failure(user, error) { return { type: userConstants.CHECK_PASSWORD_FAILURE, user, error }; }
 }

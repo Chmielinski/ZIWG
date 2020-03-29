@@ -38,6 +38,28 @@ export function users(state = {}, action) {
 				return user;
 			})
 		};
+	case userConstants.GET_EMPLOYEES_SUCCESS:
+		return {
+			employees: action.employees.filter(x => x.group === 1),
+			managers: action.employees.filter(x => x.group === 2)
+		};
+	case userConstants.DISABLE_SUCCESS:
+		return {
+			employees: action.employees.filter(x => x.group === 1),
+			managers: action.employees.filter(x => x.group === 2)
+		};
+	case userConstants.CHECK_PASSWORD_SUCCESS:
+		return {
+			ready: true
+		};
+	case userConstants.CHECK_PASSWORD_FAILURE:
+		return {
+			ready: false
+		};
+	case userConstants.UPDATE_SUCCESS:
+		return {
+			ready: false
+		};
 	default:
 		return state;
 	}
