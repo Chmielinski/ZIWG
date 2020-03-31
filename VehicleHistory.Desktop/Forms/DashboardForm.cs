@@ -11,13 +11,6 @@ namespace VehicleHistoryDesktop.Forms
         public DashboardForm()
         {
             InitializeComponent();
-        }
-
-        public DashboardForm(List<VehicleRecord> records, LoginForm loginScreen, User currentUser) : this()
-        {
-            _loginScreen = loginScreen;
-            CurrentUser = currentUser;
-            dgvRecords.DataSource = records;
             if (dgvRecords.Columns["Id"] != null)
             {
                 dgvRecords.Columns["Id"].Visible = false;
@@ -38,6 +31,11 @@ namespace VehicleHistoryDesktop.Forms
             {
                 dgvRecords.Columns["RecordTypeId"].Visible = false;
             }
+        }
+
+        public DashboardForm(LoginForm loginScreen) : this()
+        {
+            _loginScreen = loginScreen;
         }
 
         private void btnNewRecord_Click(object sender, EventArgs e)
@@ -67,7 +65,7 @@ namespace VehicleHistoryDesktop.Forms
 
         private void btnProfile_Click(object sender, EventArgs e)
         {
-            new ProfileForm(ref CurrentUser).ShowDialog();
+            new ProfileForm().ShowDialog();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)

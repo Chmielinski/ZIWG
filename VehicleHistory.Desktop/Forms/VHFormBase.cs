@@ -14,6 +14,7 @@ namespace VehicleHistoryDesktop.Forms
     {
         protected readonly List<Label> IncorrectInputs = new List<Label>();
         protected Uri WebApiUrl { get; }
+        protected User CurrentUser;
 
         protected VHFormBase()
         {

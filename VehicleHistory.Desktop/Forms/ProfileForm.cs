@@ -19,11 +19,7 @@ namespace VehicleHistoryDesktop.Forms
         public ProfileForm()
         {
             InitializeComponent();
-        }
-
-        public ProfileForm(ref User currentUser) : this()
-        {
-            CurrentUser = currentUser;
+            CurrentUser = EnvironmentSettings.CurrentUser;
             tbEmail.Text = CurrentUser.Email;
             tbFirstName.Text = CurrentUser.FirstName;
             tbLastName.Text = CurrentUser.LastName;

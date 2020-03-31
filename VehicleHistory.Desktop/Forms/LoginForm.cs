@@ -39,12 +39,19 @@ namespace VehicleHistoryDesktop.Forms
                     Hide();
                     tbLogin.Text = null;
                     tbPassword.Text = null;
-                    new DashboardForm(JsonConvert.DeserializeObject<List<VehicleRecord>>(response.Content), this, responseUser).Show();
                     if (responseUser.PasswordRecoveryActive)
                     {
                         using (var setNewPasswordForm = new SetNewPasswordForm(this))
                         {
                             setNewPasswordForm.ShowDialog();
+                        }
+                    }
+
+                    if (!EnvironmentSettings.CurrentUser.PasswordRecoveryActive)
+                    {
+                        using (var dashboardForm = new DashboardForm(this))
+                        {
+                            dashboardForm.ShowDialog();
                         }
                     }
                 }
