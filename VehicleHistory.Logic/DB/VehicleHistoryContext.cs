@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using VehicleHistory.Logic.Models.Database;
+using VehicleHistory.Logic.Models.Enums;
 
 namespace VehicleHistory.Logic.DB
 {
@@ -25,6 +26,20 @@ namespace VehicleHistory.Logic.DB
         {
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
             modelBuilder.Entity<User>().HasIndex(u => u.Id).IsUnique();
+
+            modelBuilder.Entity<Location>().HasData(
+                new Location
+                {
+                    Id = Guid.Parse("a472e3e7-1db7-4c92-b686-671a04ce8f60"),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    Name = "test",
+                    LocationType = LocationTypes.BodyShop,
+                    Line1 = "Testowa 1",
+                    Line2 = "Testowo",
+                    ZipCode = "12-345"
+                }
+            );
         }
     }
 
