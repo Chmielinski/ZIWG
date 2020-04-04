@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { history } from '../_helpers';
-import { alertActions } from '../_actions';
+import { alertActions, userActions } from '../_actions';
 import Header from '../_components/Header';
 import Footer from '../_components/Footer';
 import { AdminPanel } from '../_components/AdminPanel';

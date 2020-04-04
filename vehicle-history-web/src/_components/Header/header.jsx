@@ -24,6 +24,9 @@ class Header extends Component {
 
 	getNavigationOptions = () => {
 		const { user } = this.props;
+		if (!user) {
+			return null;
+		}
 		if (user.group === 3) {
 			return (
 				<div className="header__menu">
@@ -38,6 +41,10 @@ class Header extends Component {
 					<div className="header__menu-item header__menu-item--right" onClick={this.props.logout}>Wyloguj</div>
 				</div>
 			);
+		} else {
+			return (
+				<div className="header__menu-item header__menu-item--right" onClick={this.props.logout}>Wyloguj</div>
+			)
 		}
 	}
 	render() {
