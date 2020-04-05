@@ -51,7 +51,7 @@ class LoginPage extends React.Component {
 						<label htmlFor="password">Password</label>
 						<input type="password" className="form-control" name="password" value={password} onChange={this.handleChange} />
 						{submitted && !password &&
-              <div className="help-block">Has³o jest wymagane</div>
+              <div className="help-block">Hasï¿½o jest wymagane</div>
 						}
 					</div>
 					<div className="form-group">

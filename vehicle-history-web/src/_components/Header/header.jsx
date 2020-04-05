@@ -44,7 +44,7 @@ class Header extends Component {
 		} else {
 			return (
 				<div className="header__menu-item header__menu-item--right" onClick={this.props.logout}>Wyloguj</div>
-			)
+			);
 		}
 	}
 	render() {

@@ -43,7 +43,7 @@ class App extends React.Component {
 								<div className={`alert ${alert.type}`}>{alert.message}</div>
 						}
 						<Switch>
-						<Route exact path="/admin-panel" render={() => user && user.group === 3 ? <AdminPanel /> : <Redirect to="/" />} />
+							<Route exact path="/admin-panel" render={() => user && user.group === 3 ? <AdminPanel /> : <Redirect to="/" />} />
 							<Route path="/profile" render={() => user && (user.group === 2 || user.group === 3) ? <Profile /> : <Redirect to="/" />} />
 							<Route path="/login" component={LoginPage} />
 							<Route exact path="/" component={HomePage} />
