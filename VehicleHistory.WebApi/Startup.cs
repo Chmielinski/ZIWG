@@ -53,6 +53,7 @@ namespace VehicleHistory.WebApi
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new UserMappings());
+                mc.AddProfile(new DictionaryItemsMappings());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
@@ -92,6 +93,7 @@ namespace VehicleHistory.WebApi
                 });
             
             services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IDictionaryService, DictionaryService>();
             services.AddTransient<IEmailSender, EmailService>();
             services.AddTransient<TokenManagerMiddleware>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

@@ -27,6 +27,144 @@ namespace VehicleHistory.Logic.DB
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
             modelBuilder.Entity<User>().HasIndex(u => u.Id).IsUnique();
 
+            modelBuilder.Entity<DictionaryItem>().HasData(
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.LocationTypes,
+                    EnumValue = (int)LocationTypes.BodyShop,
+                    StringValue = "Lakiernia",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.LocationTypes,
+                    EnumValue = (int)LocationTypes.IndependentService,
+                    StringValue = "Niezależny Serwis",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.LocationTypes,
+                    EnumValue = (int)LocationTypes.ManufacturerAuthorizedService,
+                    StringValue = "Autoryzowany Serwis Obsługi",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.LocationTypes,
+                    EnumValue = (int)LocationTypes.TyreShop,
+                    StringValue = "Wulkanizator",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.LocationTypes,
+                    EnumValue = (int)LocationTypes.InspectionStation,
+                    StringValue = "Stacja kontroli pojazdów",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.RecordTypes,
+                    EnumValue = (int)RecordTypes.AccidentRepair,
+                    StringValue = "Naprawa po kolizji",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.RecordTypes,
+                    EnumValue = (int)RecordTypes.ElectronicsRepair,
+                    StringValue = "Naprawa elektroniki",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.RecordTypes,
+                    EnumValue = (int)RecordTypes.MechanicalRepair,
+                    StringValue = "Naprawa elementów mechanicznych",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.RecordTypes,
+                    EnumValue = (int)RecordTypes.MechanicalUpgrade,
+                    StringValue = "Instalacja ulepszeń",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.RecordTypes,
+                    EnumValue = (int)RecordTypes.ScheduledMaintenance,
+                    StringValue = "Okresowy serwis",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.RecordTypes,
+                    EnumValue = (int)RecordTypes.SoftwareUpgrade,
+                    StringValue = "Aktualizacja oprogramowania",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.RecordTypes,
+                    EnumValue = (int)RecordTypes.TyreChange,
+                    StringValue = "Wymiana opon",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.UserGroups,
+                    EnumValue = (int)UserGroups.ShopEmployee,
+                    StringValue = "Pracownicy placówek",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.UserGroups,
+                    EnumValue = (int)UserGroups.ShopOwner,
+                    StringValue = "Kierownicy placówek",
+                },
+                new DictionaryItem
+                {
+                    Id = Guid.NewGuid(),
+                    InsertDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                    DictionaryType = DictionaryType.UserGroups,
+                    EnumValue = (int)UserGroups.SysAdmin,
+                    StringValue = "Administratorzy",
+                }
+            );
+
             modelBuilder.Entity<Location>().HasData(
                 new Location
                 {
