@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { history } from '../_helpers';
-import { alertActions, userActions } from '../_actions';
+import { alertActions, dictionariesActions, userActions } from '../_actions';
 import Header from '../_components/Header';
 import Footer from '../_components/Footer';
 import { AdminPanel } from '../_components/AdminPanel';
@@ -12,6 +12,8 @@ import { LoginPage } from '../_components/LoginPage';
 import { HomePage } from '../_components/HomePage';
 import { Profile } from '../_components/Profile';
 import './App.scss';
+
+const ONE_HOUR = 60 * 60 * 1000; // 1h in ms
 
 class App extends React.Component {
 	constructor(props) {
@@ -27,8 +29,23 @@ class App extends React.Component {
 			}
 			// clear alert on location change
 			this.props.clearAlerts();
+			this.updateDictionaries();
 			this.setState({currentPath: window.location.pathname});
 		});
+	}
+
+	componentDidMount = () => {
+		this.updateDictionaries();
+	}
+
+	updateDictionaries = () => {
+		let { dictionaries } = this.props;
+		if (!dictionaries.date) {
+			dictionaries = this.props.dictionaries.dictionariesLocal;
+		}
+		if (!dictionaries || !dictionaries.date || dictionaries.date + ONE_HOUR < new Date().getTime()) {
+			this.props.getDictionaries();
+		}
 	}
 
 	render() {
@@ -60,16 +77,21 @@ class App extends React.Component {
 App.propTypes = {
 	alert: PropTypes.object,
 	clearAlerts: PropTypes.func,
-	verifyUserIntegrity: PropTypes.func
+	verifyUserIntegrity: PropTypes.func,
+	dictionaries: PropTypes.object,
+	getDictionaries: PropTypes.func,
+	dictionariesLocal: PropTypes.object,
 };
 
 function mapState(state) {
 	const { alert } = state;
+	const { dictionaries } = state;
 	return { alert };
 }
 
 const actionCreators = {
 	clearAlerts: alertActions.clear,
+	getDictionaries: dictionariesActions.getAll,
 	verifyUserIntegrity: userActions.verifyUserIntegrity
 };
 
