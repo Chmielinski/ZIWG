@@ -16,10 +16,13 @@ namespace VehicleHistoryDesktop.Forms
         protected Uri WebApiUrl { get; }
         protected User CurrentUser;
 
+        protected List<DictionaryItem> DictionaryItems { get; }
+
         protected VHFormBase()
         {
             var environmentSettings = EnvironmentSettings.CreateWithUrl(Settings.Default["WebApiUrl" + Environment.GetEnvironmentVariable("runenv")].ToString());
             WebApiUrl = environmentSettings.WebApiUrl;
+            DictionaryItems = Dictionaries.GetDictionaries();
             InitializeComponent();
             KeyPreview = true;
         }
