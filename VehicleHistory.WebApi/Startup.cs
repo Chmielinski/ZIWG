@@ -96,6 +96,7 @@ namespace VehicleHistory.WebApi
             services.AddScoped<IDictionaryService, DictionaryService>();
             services.AddTransient<IEmailSender, EmailService>();
             services.AddTransient<TokenManagerMiddleware>();
+            services.AddScoped<IVehicleRecordsService, VehicleRecordsService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ITokenService, TokenService>();
         }
