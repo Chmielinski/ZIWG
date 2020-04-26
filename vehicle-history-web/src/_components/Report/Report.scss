@@ -1,0 +1,18 @@
+.report {
+	&__loading {
+		img {
+			position: absolute;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			left: 50%;
+		}
+	}
+
+	&__not-found {
+		width: 100%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		left: 50%;
+	}
+}

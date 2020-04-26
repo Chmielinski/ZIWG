@@ -26,7 +26,7 @@ class HomePage extends Component {
 		this.setState({ submitted: true });
 		const { vin } = this.state;
 		if (vin) {
-			//TODO: get report
+			history.push(`/report/${vin}`);
 		}
 	}
 
