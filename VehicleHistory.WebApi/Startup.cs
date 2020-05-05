@@ -54,6 +54,8 @@ namespace VehicleHistory.WebApi
             {
                 mc.AddProfile(new UserMappings());
                 mc.AddProfile(new DictionaryItemsMappings());
+                mc.AddProfile(new LocationApplicationMappings());
+                mc.AddProfile(new VehicleRecordMappings());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
@@ -94,6 +96,7 @@ namespace VehicleHistory.WebApi
             
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IDictionaryService, DictionaryService>();
+            services.AddScoped<ILocationsService, LocationsService>();
             services.AddTransient<IEmailSender, EmailService>();
             services.AddTransient<TokenManagerMiddleware>();
             services.AddScoped<IVehicleRecordsService, VehicleRecordsService>();
