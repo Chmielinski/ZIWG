@@ -12,6 +12,8 @@ import { LoginPage } from '../_components/LoginPage';
 import { HomePage } from '../_components/HomePage';
 import { Profile } from '../_components/Profile';
 import { Report } from '../_components/Report';
+import { ApplicationCreator } from '../_components/ApplicationCreator';
+import { ApplicationsManagement } from '../_components/ApplicationsManagement';
 import './App.scss';
 
 const ONE_HOUR = 60 * 60 * 1000; // 1h in ms
@@ -66,6 +68,8 @@ class App extends React.Component {
 							<Route path="/login" component={LoginPage} />
 							<Route exact path="/" component={HomePage} />
 							<Route path="/report/:vin" component={Report} />
+							<Route path="/applications" render={() => user && user.group === 3 ? <ApplicationsManagement /> : <Redirect to="/" />} />
+							<Route path="/apply" component={ApplicationCreator} />
 							<Redirect from="*" to="/" />
 						</Switch>
 					</div>

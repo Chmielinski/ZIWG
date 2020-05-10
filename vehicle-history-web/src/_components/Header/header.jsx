@@ -25,11 +25,13 @@ class Header extends Component {
 	getNavigationOptions = () => {
 		const { user } = this.props;
 		if (!user) {
-			return null;
+			return <div className={`header__menu-item header__menu-item--right ${this.isCurrent('/apply') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/apply')}>Dołącz do systemu</div>;
 		}
 		if (user.group === 3) {
 			return (
 				<div className="header__menu">
+					<div className={`header__menu-item ${this.isCurrent('/profile') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/profile')}>Profil</div>
+					<div className={`header__menu-item ${this.isCurrent('/applications') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/applications')}>Zgłoszenia</div>
 					<div className={`header__menu-item ${this.isCurrent('/profile') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/profile')}>Profil</div>
 					<div className="header__menu-item header__menu-item--right" onClick={this.props.logout}>Wyloguj</div>
 				</div>
@@ -62,7 +64,6 @@ class Header extends Component {
 Header.propTypes = {
 	logout: PropTypes.func,
 	user: PropTypes.object,
-
 	activeRoute: PropTypes.string
 };
 
