@@ -45,6 +45,52 @@ namespace VehicleHistory.WebApi.Controllers
             return Ok(recordDto);
         }
 
+        [HttpPost("add")]
+        public IActionResult AddRecord([FromBody] VehicleRecordDto recordDto)
+        {
+            var record = new VehicleRecord();
+            record = _mapper.Map(recordDto, record);
+
+            try
+            {
+                _vehicleRecordsService.Create(record);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateRecord(string id, [FromBody]VehicleRecordDto recordDto)
+        {
+            var record = _mapper.Map<VehicleRecordDto, VehicleRecord>(recordDto);
+            record.Id = Guid.Parse(id);
+            try
+            {
+                _vehicleRecordsService.UpdateRecord(record);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult RemoveRecord(string id)
+        {
+            try
+            {
+                _vehicleRecordsService.RemoveRecord(id);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpGet("byuser")]
         public IActionResult GetRecordsForCurrentUser()
         {

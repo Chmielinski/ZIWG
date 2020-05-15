@@ -35,6 +35,55 @@ namespace VehicleHistory.Logic.Services.Implementations
             return _context.VehicleRecords.FirstOrDefault(x => x.Id.ToString() == recordId);
         }
 
+        public void Create(VehicleRecord record)
+        {
+            record.Vin.Validate();
+            if (!record.Mileage.HasValue)
+            {
+                throw new AppException("Vehicle Mileage must be specified.");
+            }
+
+            _context.VehicleRecords.Add(record);
+            _context.SaveChanges();
+        }
+
+        public void RemoveRecord(string recordId)
+        {
+            var record = _context.VehicleRecords.FirstOrDefault(x => x.Id.ToString() == recordId);
+            if (record == null)
+            {
+                throw new AppException("Record doesn't exist.");
+            }
+
+            _context.VehicleRecords.Remove(record);
+            _context.SaveChanges();
+        }
+
+        public void UpdateRecord(VehicleRecord recordParam)
+        {
+            recordParam.Vin.Validate();
+            if (!recordParam.Mileage.HasValue)
+            {
+                throw new AppException("Vehicle Mileage must be specified.");
+            }
+
+
+            var record = _context.VehicleRecords.FirstOrDefault(x => x.Id.ToString() == recordParam.Id.ToString());
+            if (record == null)
+            {
+                throw new AppException("Record not found.");
+            }
+
+            record.Description = recordParam.Description;
+            record.Mileage = recordParam.Mileage;
+            record.Vin = recordParam.Vin;
+            record.RecordType = recordParam.RecordType;
+            record.Title = recordParam.Title;
+            record.UpdateDate = DateTime.Now;
+            _context.VehicleRecords.Update(record);
+            _context.SaveChanges();
+        }
+
         public IList<VehicleRecord> GetRecordsByUser(string id)
         {
             return _context.VehicleRecords.Include(x => x.User).Where(x => x.UserId.ToString() == id).ToList();
