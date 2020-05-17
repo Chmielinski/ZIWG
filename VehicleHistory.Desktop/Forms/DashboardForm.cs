@@ -53,7 +53,11 @@ namespace VehicleHistoryDesktop.Forms
 
         private void btnNewRecord_Click(object sender, EventArgs e)
         {
-
+        	using (var editRecordForm = new EditRecordForm())
+            {
+                editRecordForm.ShowDialog();
+                GetRecords();
+            }
         }
 
         private void btnShowDetails_Click(object sender, EventArgs e)
@@ -62,8 +66,16 @@ namespace VehicleHistoryDesktop.Forms
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
-        {
-
+        {        	
+            if (dgvRecords.CurrentRow == null)
+            {
+                return;
+            }
+            using (var editRecordForm = new EditRecordForm((VehicleRecord)dgvRecords.CurrentRow.DataBoundItem))
+            {
+                editRecordForm.ShowDialog();
+                GetRecords();
+            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -83,7 +95,10 @@ namespace VehicleHistoryDesktop.Forms
 
         private void btnProfile_Click(object sender, EventArgs e)
         {
-            new ProfileForm().ShowDialog();
+            using (var profileForm = new ProfileForm())
+            {
+                profileForm.ShowDialog();
+            }
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -117,6 +132,45 @@ namespace VehicleHistoryDesktop.Forms
             Dispose();
         }
 
+		private void DashboardForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    btnNewRecord_Click(this, EventArgs.Empty);
+                    break;
+
+                case Keys.F2:
+                    btnShowDetails_Click(this, EventArgs.Empty);
+                    break;
+
+                case Keys.Enter:
+                    btnEdit_Click(this, EventArgs.Empty);
+                    break;
+
+                case Keys.F3:
+                    btnSearch_Click(this, EventArgs.Empty);
+                    break;
+
+                case Keys.Delete:
+                    btnDelete_Click(this, EventArgs.Empty);
+                    break;
+
+                case Keys.F4:
+                    btnProfile_Click(this, EventArgs.Empty);
+                    break;
+
+                case Keys.F5:
+                    btnProfile_Click(this, EventArgs.Empty);
+                    break;
+
+                case Keys.Escape:
+                    btnExit_Click(this, EventArgs.Empty);
+                    break;
+            }
+            e.SuppressKeyPress = true;
+        }
+        
         private void GetRecords(bool filter = true)
         {
             var response = ExecuteRestRequest("vehiclerecords/byuser", null, Method.GET, null, EnvironmentSettings.CurrentUser.Token);
@@ -138,6 +192,6 @@ namespace VehicleHistoryDesktop.Forms
                 .Where(x => x.Description.Contains(_filters.Phrase) || x.Title.Contains(_filters.Phrase) || x.Vin.Contains(_filters.Phrase))
                 .Where(x => x.Timestamp >= _filters.DateFrom && x.Timestamp <= _filters.DateTo)
                 .ToList();
-        }
+        }          
     }
 }

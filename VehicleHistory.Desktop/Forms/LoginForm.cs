@@ -108,5 +108,19 @@ namespace VehicleHistoryDesktop.Forms
                 passwordResetForm.ShowDialog();
             }
         }
+
+        private void btnAbout_Click(object sender, EventArgs e)
+        {
+            var aboutMessageBox =
+                MessageBox.Show(
+                    "Vehicle History Desktop v1.0 by Jakub Chmiel \n\nIcons by Jojo Mendoza from shareicon.net",
+                    "About", MessageBoxButtons.OK);
+        }
+
+        private void LoginForm_VisibleChanged(object sender, EventArgs e)
+        {
+            CancelError(lblEmailError);
+            CancelError(lblPasswordError);
+        }
     }
 }

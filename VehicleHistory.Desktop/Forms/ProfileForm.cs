@@ -44,6 +44,8 @@ namespace VehicleHistoryDesktop.Forms
                 {
                     var responseUser = JsonConvert.DeserializeObject<User>(response.Content);
                     CurrentUser = responseUser;
+                    CurrentUser.FirstName = responseUser.FirstName;
+                    CurrentUser.LastName = responseUser.LastName;
                     Close();
                 }
             }
@@ -62,7 +64,7 @@ namespace VehicleHistoryDesktop.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-
+        	Close();
         }
 
         private void tbFirstName_Validating(object sender, CancelEventArgs e)
@@ -135,6 +137,22 @@ namespace VehicleHistoryDesktop.Forms
             {
                 CancelError(lblCurrentPasswordError);
             }
+        }
+
+        private void ProfileForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    e.SuppressKeyPress = true;
+                    btnSubmit_Click(this, EventArgs.Empty);
+                    break;
+                case Keys.Escape:
+                    e.SuppressKeyPress = true;
+                    btnCancel_Click(this, EventArgs.Empty);
+                    break;
+            }
+
         }
     }
 }

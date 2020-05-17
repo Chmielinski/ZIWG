@@ -51,7 +51,6 @@ namespace VehicleHistoryDesktop.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            _loginScreen.Show();
             Close();
         }
 
@@ -91,6 +90,11 @@ namespace VehicleHistoryDesktop.Forms
                     btnCancel_Click(this, EventArgs.Empty);
                     break;
             }
+        }
+
+        private void SetNewPasswordForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _loginScreen.Show();
         }
     }
 }
