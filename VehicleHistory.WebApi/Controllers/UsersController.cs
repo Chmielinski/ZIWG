@@ -204,5 +204,51 @@ namespace VehicleHistory.WebApi.Controllers
                 return Unauthorized();
             }
         }
+        
+        [HttpGet("employees/{locationId}")]
+        public IActionResult GetEmployeesForLocation(string locationId)
+        {
+            try
+            {
+                var employees = _usersService.GetEmployees(locationId, User.Identity.Name);
+                var employeesDto = _mapper.Map<IList<UserDto>>(employees);
+                return Ok(employeesDto);
+            }
+            catch (AppException ex)
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPut("disable")]
+        public IActionResult DisableEmployee([FromBody] UserDto user)
+        {
+            try
+            {
+                var employees = _usersService.DisableEmployee(user, User.Identity.Name);
+                var employeesDto = _mapper.Map<IList<UserDto>>(employees);
+                return Ok(employeesDto);
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new {message = ex.Message});
+            }
+        }
+
+        [HttpPost("add")]
+        public IActionResult AddEmployee([FromBody] UserDto userDto)
+        {
+            var user = _mapper.Map(userDto, new User());
+
+            try
+            {
+                _usersService.AddEmployee(user, _appSettings);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

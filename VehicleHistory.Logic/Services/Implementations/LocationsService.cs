@@ -23,6 +23,17 @@ namespace VehicleHistory.Logic.Services.Implementations
         {
             _context = context;
         }
+
+        public IList<Location> GetAllLocations()
+        {
+            return _context.Locations.ToList();
+        }
+
+        public Location GetLocationById(string locationId)
+        {
+            return _context.Locations.FirstOrDefault(x => x.Id.ToString() == locationId);
+        }
+        
         public void Create(LocationApplication application)
         {
             var userWithEmail = _context.Users.FirstOrDefault(x => x.Email == application.Email);
@@ -49,6 +60,37 @@ namespace VehicleHistory.Logic.Services.Implementations
             }
 
             _context.LocationApplications.Add(application);
+            _context.SaveChanges();
+        }
+
+        public void RemoveLocation(string locationId)
+        {
+            var location = _context.Locations.FirstOrDefault(x => x.Id.ToString() == locationId);
+            if (location == null)
+            {
+                throw new AppException("Location doesn't exist.");
+            }
+            _context.Locations.Remove(location);
+            _context.SaveChanges();
+        }
+
+        public void UpdateLocation(Location locationParam)
+        {
+            var location = _context.Locations.FirstOrDefault(x => x.Id == locationParam.Id);
+
+            if (location == null)
+            {
+                throw new AppException("User not found");
+            }
+
+            location.Line1 = locationParam.Line1;
+            location.Line2 = locationParam.Line2;
+            location.ApartmentNumber = locationParam.ApartmentNumber;
+            location.Name = locationParam.Name;
+            location.ZipCode = locationParam.ZipCode;
+            location.UpdateDate = DateTime.Now;
+
+            _context.Locations.Update(location);
             _context.SaveChanges();
         }
 

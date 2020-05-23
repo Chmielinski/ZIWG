@@ -17,5 +17,8 @@ namespace VehicleHistory.Logic.Services.Interfaces
         void SendPasswordRecoveryEmail(User user, AppSettings settings);
         bool IsPasswordCorrect(string input, string email);
         void CheckUserData(User user);
+        IList<User> GetEmployees(string locationId, string currentUserId);
+        IList<User> DisableEmployee(UserDto userParam, string currentUserId);
+        void AddEmployee(User user, AppSettings settings);
     }
 }

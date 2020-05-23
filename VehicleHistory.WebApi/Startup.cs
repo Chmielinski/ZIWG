@@ -53,6 +53,7 @@ namespace VehicleHistory.WebApi
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new UserMappings());
+                mc.AddProfile(new LocationMappings());
                 mc.AddProfile(new DictionaryItemsMappings());
                 mc.AddProfile(new LocationApplicationMappings());
                 mc.AddProfile(new VehicleRecordMappings());

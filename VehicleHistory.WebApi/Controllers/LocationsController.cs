@@ -64,6 +64,36 @@ namespace VehicleHistory.WebApi.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPut("{id}")]
+        public IActionResult UpdateLocation(string id, [FromBody]LocationDto locationDto)
+        {
+            var location = _mapper.Map<LocationDto, Location>(locationDto);
+
+            try
+            {
+                _locationsService.UpdateLocation(location);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult RemoveLocation(string id)
+        {
+            try
+            {
+                _locationsService.RemoveLocation(id);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpPut("accept/{id}")]
         public IActionResult AcceptApplication(string id)
         {

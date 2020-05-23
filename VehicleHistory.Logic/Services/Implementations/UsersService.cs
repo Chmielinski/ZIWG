@@ -167,7 +167,6 @@ namespace VehicleHistory.Logic.Services.Implementations
                 user.PasswordSalt = passwordSalt;
                 user.PasswordHash = passwordHash;
             }
-
             _context.Users.Update(user);
             _context.SaveChanges();
         }
@@ -183,6 +182,7 @@ namespace VehicleHistory.Logic.Services.Implementations
             _context.Remove(user);
             _context.SaveChanges();
         }
+        
         public User GetUserByEmail(string email)
         {
             return _context.Users.FirstOrDefault(x => x.Email == email && !x.Archival);
@@ -236,6 +236,65 @@ namespace VehicleHistory.Logic.Services.Implementations
             if (user.Email != userDb.Email || user.Group != userDb.Group || user.LocationId != userDb.LocationId)
             {
                 throw new AppException("Incoming data is not integral with database");
+            }
+        }
+
+        public IList<User> GetEmployees(string locationId, string currentUserId)
+        {
+            return _context.Users.Where(x => x.LocationId.ToString() == locationId && x.Group != UserGroups.SysAdmin && x.Id.ToString() != currentUserId && !x.Archival)
+                .OrderByDescending(x => (int)x.Group)
+                .ToList();
+        }
+
+        public IList<User> DisableEmployee(UserDto userParam, string currentUserId)
+        {
+            var user = GetUserById(userParam.Id);
+
+            if (user == null)
+            {
+                throw new AppException("User not found");
+            }
+
+            user.Archival = true;
+            _context.SaveChanges();
+            return GetEmployees(userParam.LocationId, currentUserId);
+        }
+
+        public async void AddEmployee(User user, AppSettings settings)
+        {
+            if (_context.Users.Any(x => x.Email == user.Email && !x.Archival))
+            {
+                throw new AppException("Specified E-Mail address is already taken");
+            }
+
+            var generatedPassword = Crypto.GenerateRendomPassword();
+            Crypto.CreatePasswordHash(generatedPassword, out var generatedPassHash, out var generatedPassSalt);
+            user.PasswordHash = generatedPassHash;
+            user.PasswordSalt = generatedPassSalt;
+            user.PasswordRecoveryActive = true;
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            var builder = new DbContextOptionsBuilder<VehicleHistoryContext>();
+            builder.UseSqlServer(settings.ConnectionString);
+            using (var context = new VehicleHistoryContext(builder.Options))
+            {
+                var emailSubject = "Your Account has been created";
+                var emailBody = $"Use the following password the first time you log in: <b>{generatedPassword}</b>. " +
+                                $"You will be prompted to change the password when you log in.";
+
+                var client = new SendGridClient(settings.SendGridKey);
+                var message = new SendGridMessage
+                {
+                    From = new EmailAddress("235028@student.pwr.edu.pl", "Vehicle History Account Management"),
+                    Subject = emailSubject,
+                    HtmlContent = emailBody
+                };
+
+                message.AddTo(new EmailAddress(user.Email));
+                await client.SendEmailAsync(message);
+                await context.SaveChangesAsync();
             }
         }
     }
