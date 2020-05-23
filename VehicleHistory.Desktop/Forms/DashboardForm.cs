@@ -62,7 +62,14 @@ namespace VehicleHistoryDesktop.Forms
 
         private void btnShowDetails_Click(object sender, EventArgs e)
         {
-
+            if (dgvRecords.CurrentRow == null)
+            {
+                return;
+            }
+            using (var detailsForm = new RecordDetailsForm((VehicleRecord)dgvRecords.CurrentRow.DataBoundItem))
+            {
+                detailsForm.ShowDialog();
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -90,7 +97,19 @@ namespace VehicleHistoryDesktop.Forms
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-
+        	if (dgvRecords.CurrentRow != null)
+            {
+                var confirmationDialog = MessageBox.Show("Czy jesteś pewien, że chcesz usunąć ten rekord?", "Usuwanie rekordu", MessageBoxButtons.YesNo);
+                if (confirmationDialog == DialogResult.Yes)
+                {
+                    var response = ExecuteRestRequest($"vehiclerecords/{dgvRecords.CurrentRow.Cells["Id"].Value}", null,
+                        Method.DELETE, null, EnvironmentSettings.CurrentUser.Token);
+                    if (response.IsSuccessful)
+                    {
+                        GetRecords();
+                    }
+                }
+            }
         }
 
         private void btnProfile_Click(object sender, EventArgs e)
