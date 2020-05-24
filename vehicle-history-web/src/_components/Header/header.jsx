@@ -26,11 +26,10 @@ class Header extends Component {
 		const { user } = this.props;
 		if (!user) {
 			return <div className={`header__menu-item header__menu-item--right ${this.isCurrent('/apply') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/apply')}>Dołącz do systemu</div>;
-		}
-		if (user.group === 3) {
+		} else if (user.group === 3) {
 			return (
 				<div className="header__menu">
-					<div className={`header__menu-item ${this.isCurrent('/profile') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/profile')}>Profil</div>
+					<div className={`header__menu-item ${this.isCurrent('/locations') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/locations')}>Placówki</div>
 					<div className={`header__menu-item ${this.isCurrent('/applications') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/applications')}>Zgłoszenia</div>
 					<div className={`header__menu-item ${this.isCurrent('/profile') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/profile')}>Profil</div>
 					<div className="header__menu-item header__menu-item--right" onClick={this.props.logout}>Wyloguj</div>
@@ -39,6 +38,8 @@ class Header extends Component {
 		} else if (user.group == 2) {
 			return (
 				<div className="header__menu">
+					<div className={`header__menu-item ${this.isCurrent('/employees') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/employees')}>Pracownicy</div>
+					<div className={`header__menu-item ${this.isCurrent('/mylocation') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/mylocation')}>Zarządzanie placówką</div>
 					<div className={`header__menu-item ${this.isCurrent('/profile') ? 'header__menu-item--current' : ''}`} onClick={() => this.navigate('/profile')}>Profil</div>
 					<div className="header__menu-item header__menu-item--right" onClick={this.props.logout}>Wyloguj</div>
 				</div>
@@ -49,6 +50,7 @@ class Header extends Component {
 			);
 		}
 	}
+	
 	render() {
 		return (
 			<div className="header header__menu">

@@ -14,6 +14,10 @@ import { Profile } from '../_components/Profile';
 import { Report } from '../_components/Report';
 import { ApplicationCreator } from '../_components/ApplicationCreator';
 import { ApplicationsManagement } from '../_components/ApplicationsManagement';
+import { Locations } from '../_components/Locations';
+import { Employees } from '../_components/Employees';
+import { EmployeeAddForm } from '../_components/EmployeeAddForm';
+import { LocationManagement } from '../_components/LocationManagement';
 import './App.scss';
 
 const ONE_HOUR = 60 * 60 * 1000; // 1h in ms
@@ -70,6 +74,11 @@ class App extends React.Component {
 							<Route path="/report/:vin" component={Report} />
 							<Route path="/applications" render={() => user && user.group === 3 ? <ApplicationsManagement /> : <Redirect to="/" />} />
 							<Route path="/apply" component={ApplicationCreator} />
+							<Route path="/locations" render={() => user && user.group === 3 ? <Locations /> : <Redirect to="/" />} />
+							<Route path="/employees" render={() => user && user.group === 2 ? <Employees /> : <Redirect to="/" />} />
+							<Route path="/employee" render={() => user && user.group === 2 ? <EmployeeAddForm /> : <Redirect to="/" />} />
+							<Route path="/mylocation" render={() => user && user.group === 2 ? <LocationManagement /> : <Redirect to="/" />} />
+							<Route exact path="/" component={HomePage} />
 							<Redirect from="*" to="/" />
 						</Switch>
 					</div>
@@ -92,7 +101,7 @@ App.propTypes = {
 function mapState(state) {
 	const { alert } = state;
 	const { dictionaries } = state;
-	return { alert };
+	return { alert, dictionaries };
 }
 
 const actionCreators = {

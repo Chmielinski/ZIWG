@@ -9,6 +9,9 @@ export const userActions = {
 	register,
 	getAll,
 	delete: _delete,
+	getEmployees,
+	disable,
+	addUser,
 	update,
 	verifyUserIntegrity,
 	verifyPassword
@@ -114,6 +117,57 @@ function verifyUserIntegrity() {
 	function request() { return { type: userConstants.VERIFY_REQUEST }; }
 	function success() { return { type: userConstants.VERIFY_SUCCESS }; }
 	function failure(error) { return { type: userConstants.VERIFY_FAILURE, error }; }
+}
+
+function getEmployees(locationId) {
+	return dispatch => {
+		dispatch(request(locationId));
+
+		userService.getEmployeesByLocation(locationId)
+			.then(
+				employees => dispatch(success(employees)),
+				error => dispatch(failure(error.toString()))
+			);		
+	};
+
+	function request(locationId) { return { type: userConstants.GET_EMPLOYEES_REQUEST, locationId}; }
+	function success(employees) { return { type: userConstants.GET_EMPLOYEES_SUCCESS, employees }; }
+	function failure(error) { return { type: userConstants.GET_EMPLOYEES_FAILURE, error }; }
+}
+
+function disable(user) {
+	return dispatch => {
+		dispatch(request(user));
+
+		userService.disable(user)
+			.then(
+				(employees) => dispatch(success(employees)),
+				error => dispatch(failure(error.toString()))
+			);		
+	};
+
+	function request(user) { return { type: userConstants.DISABLE_REQUEST, user}; }
+	function success(employees) { return { type: userConstants.DISABLE_SUCCESS, employees }; }
+	function failure(error) { return { type: userConstants.DISABLE_FAILURE, error }; }
+}
+
+function addUser(user) {
+	return dispatch => {
+		dispatch(request(user));
+
+		userService.addUser(user)
+			.then(
+				(user) => {
+					dispatch(success(user));
+					history.push('/employees');
+				},
+				error => dispatch(failure(error.toString()))
+			);		
+	};
+	
+	function request(user) { return { type: userConstants.ADD_USER_REQUEST, user }; }
+	function success(employees) { return { type: userConstants.ADD_USER_SUCCESS, employees }; }
+	function failure(error) { return { type: userConstants.ADD_USER_FAILURE, error }; }
 }
 
 function update(user) {

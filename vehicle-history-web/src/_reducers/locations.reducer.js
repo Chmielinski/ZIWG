@@ -26,6 +26,15 @@ export function locations(state = {}, action) {
 		return {
 			applications: action.applications
 		};
+	case locationsConstants.GET_ALL_LOCATIONS_SUCCESS:
+		return {
+			locations: action.locations
+		};
+	case locationsConstants.DETAILS_SUCCESS: 
+		return {
+			loaded: true,
+			locationDetails: action.location
+		};
 	default:
 		return state;
 	}

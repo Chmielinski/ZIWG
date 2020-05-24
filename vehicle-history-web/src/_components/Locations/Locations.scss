@@ -1,0 +1,22 @@
+.location {
+	display: flex;
+	align-items: center;
+	border: 1px solid black;
+	border-bottom: none;
+
+	&:last-of-type {
+		border-bottom: 1px solid black;
+	}
+
+	&__content {
+		text-align: left;
+
+		&--small {
+			font-size: 80%;
+		}
+
+		&--bold {
+			font-weight: 600;
+		}
+	}
+}

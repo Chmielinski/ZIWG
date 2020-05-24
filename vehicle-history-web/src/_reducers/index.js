@@ -6,7 +6,6 @@ import { alert } from './alert.reducer';
 import { dictionaries } from './dictionaries.reducer';
 import { locations } from './locations.reducer';
 
-
 const rootReducer = combineReducers({
 	authentication,
 	users,

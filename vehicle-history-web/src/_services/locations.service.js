@@ -32,6 +32,15 @@ function getAllApplications() {
 	return fetch(`${config.apiUrl}/locations/applications`, requestOptions).then(handleAuthResponse);
 }
 
+function getAllLocations() {
+	const requestOptions = {
+		method: 'GET',
+		headers: authHeader()
+	};
+
+	return fetch(`${config.apiUrl}/locations`, requestOptions).then(handleAuthResponse);
+}
+
 function accept(applicationId) {
 	const requestOptions = {
 		method: 'PUT',
@@ -49,6 +58,22 @@ function reject(applicationId) {
 
 	return fetch(`${config.apiUrl}/locations/reject/${applicationId}`, requestOptions).then(handleAuthResponse);
 }
+
+function getById(locationId) {
+	const requestOptions = {
+		method: 'GET',
+		headers: authHeader(),
+	};
+
+	return fetch(`${config.apiUrl}/locations/${locationId}`, requestOptions).then(handleAuthResponse);
+}
+
+function update(location) {
+	const requestOptions = {
+		method: 'PUT',
+		headers: { ...authHeader(), 'Content-Type': 'application/json' },
+		body: JSON.stringify(location)
+	};
 
 	return fetch(`${config.apiUrl}/locations/${location.id}`, requestOptions).then(handleAuthResponse);
 }

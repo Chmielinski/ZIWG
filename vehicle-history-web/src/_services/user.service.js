@@ -11,6 +11,9 @@ export const userService = {
 	update,
 	delete: _delete,
 	verifyUserIntegrity,
+	getEmployeesByLocation,
+	disable,
+	addUser,
 	verifyPassword
 };
 
@@ -116,6 +119,36 @@ function verifyUserIntegrity() {
 	
 	return fetch(`${config.apiUrl}/users/check`, requestOptions).then(handleAuthResponse);
 }
+
+function getEmployeesByLocation(locationId) {
+	const requestOptions = {
+		method: 'GET',
+		headers: authHeader()
+	};
+	
+	return fetch(`${config.apiUrl}/users/employees/${locationId}`, requestOptions).then(handleAuthResponse);
+}
+
+function disable(user) {
+	const requestOptions = {
+		method: 'PUT',
+		headers: { ...authHeader(), 'Content-Type': 'application/json' },
+		body: JSON.stringify(user)
+	};
+
+	return fetch(`${config.apiUrl}/users/disable`, requestOptions).then(handleAuthResponse);
+}
+
+function addUser(user) {
+	const requestOptions = {
+		method: 'POST',
+		headers: { ...authHeader(), 'Content-Type': 'application/json' },
+		body: JSON.stringify(user)
+	};
+
+	return fetch(`${config.apiUrl}/users/add`, requestOptions).then(handleAuthResponse);
+}
+
 function verifyPassword(user) {
 	const requestOptions = {
 		method: 'POST',
