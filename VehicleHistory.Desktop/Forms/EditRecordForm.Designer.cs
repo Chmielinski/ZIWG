@@ -185,9 +185,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblVinError.ForeColor = System.Drawing.Color.Red;
             this.lblVinError.Location = new System.Drawing.Point(211, 76);
             this.lblVinError.Name = "lblVinError";
-            this.lblVinError.Size = new System.Drawing.Size(28, 13);
+            this.lblVinError.Size = new System.Drawing.Size(0, 13);
             this.lblVinError.TabIndex = 14;
-            this.lblVinError.Text = "error";
             this.lblVinError.Visible = false;
             // 
             // lblMileageError
@@ -196,9 +195,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblMileageError.ForeColor = System.Drawing.Color.Red;
             this.lblMileageError.Location = new System.Drawing.Point(211, 125);
             this.lblMileageError.Name = "lblMileageError";
-            this.lblMileageError.Size = new System.Drawing.Size(28, 13);
+            this.lblMileageError.Size = new System.Drawing.Size(0, 13);
             this.lblMileageError.TabIndex = 15;
-            this.lblMileageError.Text = "error";
             this.lblMileageError.Visible = false;
             // 
             // lblTitleError
@@ -207,9 +205,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblTitleError.ForeColor = System.Drawing.Color.Red;
             this.lblTitleError.Location = new System.Drawing.Point(211, 175);
             this.lblTitleError.Name = "lblTitleError";
-            this.lblTitleError.Size = new System.Drawing.Size(28, 13);
+            this.lblTitleError.Size = new System.Drawing.Size(0, 13);
             this.lblTitleError.TabIndex = 16;
-            this.lblTitleError.Text = "error";
             this.lblTitleError.Visible = false;
             // 
             // lblGeneralError
@@ -218,9 +215,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblGeneralError.ForeColor = System.Drawing.Color.Red;
             this.lblGeneralError.Location = new System.Drawing.Point(211, 355);
             this.lblGeneralError.Name = "lblGeneralError";
-            this.lblGeneralError.Size = new System.Drawing.Size(28, 13);
+            this.lblGeneralError.Size = new System.Drawing.Size(0, 13);
             this.lblGeneralError.TabIndex = 17;
-            this.lblGeneralError.Text = "error";
             this.lblGeneralError.Visible = false;
             // 
             // EditRecordForm

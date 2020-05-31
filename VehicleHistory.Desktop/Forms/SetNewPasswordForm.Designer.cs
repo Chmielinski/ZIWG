@@ -44,9 +44,8 @@
             this.lblNewPasswordError.ForeColor = System.Drawing.Color.Red;
             this.lblNewPasswordError.Location = new System.Drawing.Point(194, 75);
             this.lblNewPasswordError.Name = "lblNewPasswordError";
-            this.lblNewPasswordError.Size = new System.Drawing.Size(28, 13);
+            this.lblNewPasswordError.Size = new System.Drawing.Size(0, 13);
             this.lblNewPasswordError.TabIndex = 23;
-            this.lblNewPasswordError.Text = "error";
             this.lblNewPasswordError.Visible = false;
             // 
             // lblConfirmPasswordError
@@ -55,9 +54,8 @@
             this.lblConfirmPasswordError.ForeColor = System.Drawing.Color.Red;
             this.lblConfirmPasswordError.Location = new System.Drawing.Point(194, 120);
             this.lblConfirmPasswordError.Name = "lblConfirmPasswordError";
-            this.lblConfirmPasswordError.Size = new System.Drawing.Size(28, 13);
+            this.lblConfirmPasswordError.Size = new System.Drawing.Size(0, 13);
             this.lblConfirmPasswordError.TabIndex = 24;
-            this.lblConfirmPasswordError.Text = "error";
             this.lblConfirmPasswordError.Visible = false;
             // 
             // tbConfirmNewPassword

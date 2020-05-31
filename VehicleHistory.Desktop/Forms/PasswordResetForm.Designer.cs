@@ -41,9 +41,8 @@
             this.lblEmailError.ForeColor = System.Drawing.Color.Red;
             this.lblEmailError.Location = new System.Drawing.Point(115, 79);
             this.lblEmailError.Name = "lblEmailError";
-            this.lblEmailError.Size = new System.Drawing.Size(28, 13);
+            this.lblEmailError.Size = new System.Drawing.Size(0, 13);
             this.lblEmailError.TabIndex = 9;
-            this.lblEmailError.Text = "error";
             this.lblEmailError.Visible = false;
             // 
             // lblEmail

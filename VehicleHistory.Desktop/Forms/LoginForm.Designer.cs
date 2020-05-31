@@ -107,9 +107,8 @@
             this.lblEmailError.ForeColor = System.Drawing.Color.Red;
             this.lblEmailError.Location = new System.Drawing.Point(167, 86);
             this.lblEmailError.Name = "lblEmailError";
-            this.lblEmailError.Size = new System.Drawing.Size(28, 13);
+            this.lblEmailError.Size = new System.Drawing.Size(0, 13);
             this.lblEmailError.TabIndex = 6;
-            this.lblEmailError.Text = "error";
             this.lblEmailError.Visible = false;
             // 
             // lblPasswordError
@@ -118,9 +117,8 @@
             this.lblPasswordError.ForeColor = System.Drawing.Color.Red;
             this.lblPasswordError.Location = new System.Drawing.Point(167, 150);
             this.lblPasswordError.Name = "lblPasswordError";
-            this.lblPasswordError.Size = new System.Drawing.Size(28, 13);
+            this.lblPasswordError.Size = new System.Drawing.Size(0, 13);
             this.lblPasswordError.TabIndex = 7;
-            this.lblPasswordError.Text = "error";
             this.lblPasswordError.Visible = false;
             // 
             // LoginForm

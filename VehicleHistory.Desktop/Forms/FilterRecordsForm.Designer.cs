@@ -208,9 +208,8 @@
             this.lblRangeError.ForeColor = System.Drawing.Color.Red;
             this.lblRangeError.Location = new System.Drawing.Point(108, 79);
             this.lblRangeError.Name = "lblRangeError";
-            this.lblRangeError.Size = new System.Drawing.Size(28, 13);
+            this.lblRangeError.Size = new System.Drawing.Size(0, 13);
             this.lblRangeError.TabIndex = 16;
-            this.lblRangeError.Text = "error";
             this.lblRangeError.Visible = false;
             // 
             // dtpFrom
@@ -257,9 +256,8 @@
             this.lblDatesError.ForeColor = System.Drawing.Color.Red;
             this.lblDatesError.Location = new System.Drawing.Point(108, 127);
             this.lblDatesError.Name = "lblDatesError";
-            this.lblDatesError.Size = new System.Drawing.Size(28, 13);
+            this.lblDatesError.Size = new System.Drawing.Size(0, 13);
             this.lblDatesError.TabIndex = 21;
-            this.lblDatesError.Text = "error";
             this.lblDatesError.Visible = false;
             // 
             // FilterRecordsForm

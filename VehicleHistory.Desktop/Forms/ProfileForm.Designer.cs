@@ -179,9 +179,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblFirstNameError.ForeColor = System.Drawing.Color.Red;
             this.lblFirstNameError.Location = new System.Drawing.Point(214, 74);
             this.lblFirstNameError.Name = "lblFirstNameError";
-            this.lblFirstNameError.Size = new System.Drawing.Size(28, 13);
+            this.lblFirstNameError.Size = new System.Drawing.Size(0, 13);
             this.lblFirstNameError.TabIndex = 14;
-            this.lblFirstNameError.Text = "error";
             // 
             // lblCurrentPasswordError
             // 
@@ -189,9 +188,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblCurrentPasswordError.ForeColor = System.Drawing.Color.Red;
             this.lblCurrentPasswordError.Location = new System.Drawing.Point(214, 307);
             this.lblCurrentPasswordError.Name = "lblCurrentPasswordError";
-            this.lblCurrentPasswordError.Size = new System.Drawing.Size(28, 13);
+            this.lblCurrentPasswordError.Size = new System.Drawing.Size(0, 13);
             this.lblCurrentPasswordError.TabIndex = 15;
-            this.lblCurrentPasswordError.Text = "error";
             // 
             // lblConfirmPasswordError
             // 
@@ -199,9 +197,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblConfirmPasswordError.ForeColor = System.Drawing.Color.Red;
             this.lblConfirmPasswordError.Location = new System.Drawing.Point(214, 261);
             this.lblConfirmPasswordError.Name = "lblConfirmPasswordError";
-            this.lblConfirmPasswordError.Size = new System.Drawing.Size(28, 13);
+            this.lblConfirmPasswordError.Size = new System.Drawing.Size(0, 13);
             this.lblConfirmPasswordError.TabIndex = 16;
-            this.lblConfirmPasswordError.Text = "error";
             // 
             // lblNewPasswordError
             // 
@@ -209,9 +206,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblNewPasswordError.ForeColor = System.Drawing.Color.Red;
             this.lblNewPasswordError.Location = new System.Drawing.Point(214, 216);
             this.lblNewPasswordError.Name = "lblNewPasswordError";
-            this.lblNewPasswordError.Size = new System.Drawing.Size(28, 13);
+            this.lblNewPasswordError.Size = new System.Drawing.Size(0, 13);
             this.lblNewPasswordError.TabIndex = 17;
-            this.lblNewPasswordError.Text = "error";
             // 
             // lblEmailError
             // 
@@ -219,9 +215,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblEmailError.ForeColor = System.Drawing.Color.Red;
             this.lblEmailError.Location = new System.Drawing.Point(214, 170);
             this.lblEmailError.Name = "lblEmailError";
-            this.lblEmailError.Size = new System.Drawing.Size(28, 13);
+            this.lblEmailError.Size = new System.Drawing.Size(0, 13);
             this.lblEmailError.TabIndex = 18;
-            this.lblEmailError.Text = "error";
             // 
             // lblLastNameError
             // 
@@ -229,9 +224,8 @@ namespace VehicleHistoryDesktop.Forms
             this.lblLastNameError.ForeColor = System.Drawing.Color.Red;
             this.lblLastNameError.Location = new System.Drawing.Point(214, 124);
             this.lblLastNameError.Name = "lblLastNameError";
-            this.lblLastNameError.Size = new System.Drawing.Size(28, 13);
+            this.lblLastNameError.Size = new System.Drawing.Size(0, 13);
             this.lblLastNameError.TabIndex = 19;
-            this.lblLastNameError.Text = "error";
             // 
             // btnCancel
             // 
