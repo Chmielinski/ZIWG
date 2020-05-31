@@ -72,6 +72,7 @@ class ApplicationCreator extends React.Component {
 
 	render() {
 		const { email, line1, line2, apartmentNumber, name, zipCode, locationTypeId, submitted } = this.state;
+		console.log(this.props);
 		const { dictionaries } = this.props.dictionaries.dictionariesLocal;
 		const { applied } = this.props;
 		if (!applied) {

@@ -47,7 +47,7 @@ class App extends React.Component {
 
 	updateDictionaries = () => {
 		let { dictionaries } = this.props;
-		if (!dictionaries.date) {
+		if (!!dictionaries && !dictionaries.date) {
 			dictionaries = this.props.dictionaries.dictionariesLocal;
 		}
 		if (!dictionaries || !dictionaries.date || dictionaries.date + ONE_HOUR < new Date().getTime()) {
